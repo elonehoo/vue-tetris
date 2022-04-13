@@ -2,6 +2,13 @@ import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import routes from 'virtual:generated-pages'
 import App from './App.vue'
+import store from './store'
+
+import './utils/constant';
+import './control';
+import { subscribeRecord } from './utils';
+
+subscribeRecord(store);
 
 const app = createApp(App)
 const router = createRouter({
@@ -9,4 +16,5 @@ const router = createRouter({
   routes,
 })
 app.use(router)
+app.use(store)
 app.mount('#app')
