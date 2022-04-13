@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import { isMobile } from '~/utils'
 export default defineComponent({
   name: 'Guide',
