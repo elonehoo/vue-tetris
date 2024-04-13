@@ -1,7 +1,7 @@
 {
   "name": "vitetem-mini",
   "version": "0.0.1",
-  "packageManager": "pnpm@6.35.1",
+  "packageManager": "pnpm@8.15.7",
   "scripts": {
     "build": "vite build",
     "dev": "vite --port 3333 --open",
@@ -26,7 +26,7 @@
     "eslint": "^8.52.0",
     "jsdom": "^19.0.0",
     "less": "^4.2.0",
-    "pnpm": "^6.35.1",
+    "pnpm": "^8.15.7",
     "typescript": "^4.9.5",
     "unocss": "^0.57.0",
     "unplugin-auto-import": "^0.16.6",
