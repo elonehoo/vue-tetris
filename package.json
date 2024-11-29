@@ -23,7 +23,7 @@
     "@unocss/reset": "^0.57.0",
     "@vitejs/plugin-vue": "^2.3.4",
     "@vue/test-utils": "^2.4.1",
-    "eslint": "^8.52.0",
+    "eslint": "^9.16.0",
     "jsdom": "^19.0.0",
     "less": "^4.2.0",
     "pnpm": "^6.35.1",
