@@ -48,25 +48,25 @@ const mutations = {
     state.focus = data
   },
   key_drop(state, data) {
-    state.keyboard['drop'] = data
+    state.keyboard.drop = data
   },
   key_down(state, data) {
-    state.keyboard['down'] = data
+    state.keyboard.down = data
   },
   key_left(state, data) {
-    state.keyboard['left'] = data
+    state.keyboard.left = data
   },
   key_right(state, data) {
-    state.keyboard['right'] = data
+    state.keyboard.right = data
   },
   key_rotate(state, data) {
-    state.keyboard['rotate'] = data
+    state.keyboard.rotate = data
   },
   key_reset(state, data) {
-    state.keyboard['reset'] = data
+    state.keyboard.reset = data
   },
   key_pause(state, data) {
-    state.keyboard['pause'] = data
-  }
+    state.keyboard.pause = data
+  },
 }
 export default mutations

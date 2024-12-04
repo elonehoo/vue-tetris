@@ -1,3 +1,18 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'Decorate',
+  setup() {
+    const title = ref('TETRIS')
+
+    return {
+      title,
+    }
+  },
+})
+</script>
+
 <template>
   <div class="decorate">
     <!-- 面板左右装饰 -->
@@ -13,95 +28,95 @@
       <span class="r ml" />
       <span class="r ml" />
     </div>
-    <h1>{{title}}</h1>
+    <h1>{{ title }}</h1>
     <div class="view">
       <b class="c" />
       <div class="clear" />
       <b class="c" />
       <b class="c" />
       <div class="clear" />
-      <em/>
+      <em />
       <b class="c" />
-      <p/>
-      <em/>
-      <b class="c" />
-      <div class="clear" />
-      <b class="c" />
-      <b class="c" />
-      <div class="clear" />
-      <em/>
-      <b class="c" />
-      <p/>
-      <b class="c" />
-      <b class="c" />
-      <b class="c" />
-      <b class="c" />
-      <p/>
+      <p />
+      <em />
       <b class="c" />
       <div class="clear" />
       <b class="c" />
       <b class="c" />
       <div class="clear" />
+      <em />
       <b class="c" />
-      <p/>
+      <p />
+      <b class="c" />
+      <b class="c" />
+      <b class="c" />
+      <b class="c" />
+      <p />
+      <b class="c" />
+      <div class="clear" />
+      <b class="c" />
+      <b class="c" />
+      <div class="clear" />
+      <b class="c" />
+      <p />
       <b class="c" />
       <b class="c" />
       <div class="clear" />
       <b class="c" />
       <div class="clear" />
       <b class="c" />
-      <p/>
-      <em/>
+      <p />
+      <em />
       <b class="c" />
       <div class="clear" />
-      <em/>
+      <em />
       <b class="c" />
       <div class="clear" />
-      <em/>
+      <em />
       <b class="c" />
       <div class="clear" />
-      <em/>
+      <em />
       <b class="c" />
     </div>
     <div class="view l">
-      <em/>
+      <em />
       <b class="c" />
       <div class="clear" />
       <b class="c" />
       <b class="c" />
       <div class="clear" />
       <b class="c" />
-      <p/>
+      <p />
       <b class="c" />
       <div class="clear" />
       <b class="c" />
       <b class="c" />
       <div class="clear" />
       <b class="c" />
-      <p/>
+      <p />
       <b class="c" />
       <b class="c" />
       <b class="c" />
       <b class="c" />
-      <p/>
-      <em/>
-      <b class="c" />
-      <div class="clear" />
-      <b class="c" />
+      <p />
+      <em />
       <b class="c" />
       <div class="clear" />
-      <em/>
-      <b class="c" />
-      <p/>
       <b class="c" />
       <b class="c" />
       <div class="clear" />
-      <em/>
+      <em />
+      <b class="c" />
+      <p />
+      <b class="c" />
       <b class="c" />
       <div class="clear" />
-      <em/>
+      <em />
       <b class="c" />
-      <p/>
+      <div class="clear" />
+      <em />
+      <b class="c" />
+      <p />
       <b class="c" />
       <div class="clear" />
       <b class="c" />
@@ -112,20 +127,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-export default defineComponent({
-  name: 'Decorate',
-  setup() {
-    const title = ref('TETRIS')
-
-    return {
-      title,
-    }
-  }
-})
-</script>
 
 <style lang="less" scoped>
 .decorate {

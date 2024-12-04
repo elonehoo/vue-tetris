@@ -1,21 +1,17 @@
-<template>
-   <div class="bg pause" :class="{'c': showPause}" />
-</template>
-
 <script lang="ts">
+import { onMounted, ref, watch } from 'vue'
 
-import { onMounted, ref, watch } from 'vue';
-let Pause = {
-  timeout: null
+const Pause = {
+  timeout: null,
 }
 export default {
   props: {
     data: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-  setup (props) {
+  setup(props) {
     const showPause = ref(false)
     watch(props, (newVal, _) => {
       setShake(newVal.data)
@@ -38,11 +34,15 @@ export default {
       }
     }
     return {
-      showPause
+      showPause,
     }
-  }
+  },
 }
 </script>
+
+<template>
+  <div class="bg pause" :class="{ c: showPause }" />
+</template>
 
 <style lang="less">
 .pause {

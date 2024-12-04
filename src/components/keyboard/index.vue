@@ -1,85 +1,12 @@
-<template>
-  <div class="keyboard" :style="{ marginTop: fillingNum + 'px'}">
-    <v-button
-      ref="dom_rotate_el"
-      color="blue"
-      size="s1"
-      arrow="translate(0, 63px)"
-      :top="0"
-      :left="374"
-      :label="rotation"
-      :position="true"
-      :active="keyboard['rotate']"
-    />
-    <v-button
-      ref="dom_down_el"
-      color="blue"
-      size="s1"
-      arrow="translate(0,-71px) rotate(180deg)"
-      :top="180"
-      :left="374"
-      :label="labelDown"
-      :active="keyboard['down']"
-    />
-    <v-button
-      ref="dom_left_el"
-      color="blue"
-      size="s1"
-      arrow="translate(60px, -12px) rotate(270deg)"
-      :top="90"
-      :left="284"
-      :label="labelLeft"
-      :active="keyboard['left']"
-    />
-    <v-button
-      ref="dom_right_el"
-      color="blue"
-      size="s1"
-      arrow="translate(-60px, -12px) rotate(90deg)"
-      :top="90"
-      :left="464"
-      :label="labelRight"
-      :active="keyboard['right']"
-    />
-    <v-button
-      ref="dom_space_el"
-      color="blue"
-      size="s0"
-      :top="100"
-      :left="52"
-      :label="labelDropSpace"
-      :active="keyboard['drop']"
-    />
-    <v-button
-      ref="dom_r_el"
-      color="red"
-      size="s2"
-      :top="0"
-      :left="140"
-      :label="labelResetR"
-      :active="keyboard['reset']"
-    />
-    <v-button
-      ref="dom_p_el"
-      color="green"
-      size="s2"
-      :top="0"
-      :left="40"
-      :label="(start || isPause) ? labelStartS : labelPauseP"
-      :active="keyboard['pause']"
-    />
-  </div>
-</template>
-
 <script lang="ts">
-import { defineComponent, ref, watch, computed, onMounted, reactive, toRefs } from 'vue'
+import { computed, defineComponent, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { useStore } from 'vuex'
 import todo from '~/control/todo'
 import vButton from './button/index.vue'
 
 export default defineComponent({
   components: {
-    vButton
+    VButton: vButton,
   },
   props: ['filling', 'cur'],
   setup(props) {
@@ -93,14 +20,14 @@ export default defineComponent({
       dom_right_el: ref(null),
       dom_space_el: ref(null),
       dom_r_el: ref(null),
-      dom_p_el: ref(null)
+      dom_p_el: ref(null),
     })
 
     watch(props, (newVal, _) => {
       fillingNum.value = Number(newVal.filling) + 20
       start.value = !newVal.cur
     }, {
-      deep: true
+      deep: true,
     })
 
     const isPause = computed(() => store.state.pause)
@@ -113,8 +40,7 @@ export default defineComponent({
     const labelResetR = ref('Reset R')
     const labelPauseP = ref('Pause P')
     const labelStartS = ref('Start S')
-    
-    
+
     onMounted(() => {
       // 对于手机操作, 触发了touchstart, 将作出记录, 不再触发后面的mouse事件
       const touchEventCatch = {}
@@ -123,34 +49,34 @@ export default defineComponent({
       const mouseDownEventCatch = {}
       document.addEventListener(
         'touchstart',
-        e => {
+        (e) => {
           if (e.preventDefault) {
             e.preventDefault()
           }
         },
-        { passive: false }
+        { passive: false },
       )
       document.addEventListener('touchend', (e) => {
         if (e.preventDefault) {
-          e.preventDefault();
+          e.preventDefault()
         }
-      }, { passive: false });
+      }, { passive: false })
 
       // 阻止双指放大
       document.addEventListener('gesturestart', (event) => {
-        event.preventDefault();
-      }, { passive: false });
-      
+        event.preventDefault()
+      }, { passive: false })
+
       document.addEventListener(
         'mousedown',
-        e => {
+        (e) => {
           if (e.preventDefault) {
             e.preventDefault()
           }
         },
-        true
+        true,
       )
-      Object.keys(todo).forEach(key => {
+      Object.keys(todo).forEach((key) => {
         const $el = doms[`dom_${key}_el`].$el
 
         $el.addEventListener(
@@ -159,11 +85,11 @@ export default defineComponent({
             if (touchEventCatch[key] === true) {
               return
             }
-            
+
             todo[key].down(store)
             mouseDownEventCatch[key] = true
           },
-          true
+          true,
         )
         $el.addEventListener(
           'mouseup',
@@ -175,7 +101,7 @@ export default defineComponent({
             todo[key].up(store)
             mouseDownEventCatch[key] = false
           },
-          true
+          true,
         )
         $el.addEventListener(
           'mouseout',
@@ -184,7 +110,7 @@ export default defineComponent({
               todo[key].up(store)
             }
           },
-          true
+          true,
         )
         $el.addEventListener(
           'touchstart',
@@ -192,18 +118,17 @@ export default defineComponent({
             touchEventCatch[key] = true
             todo[key].down(store)
           },
-          true
+          true,
         )
         $el.addEventListener(
           'touchend',
           () => {
             todo[key].up(store)
           },
-          true
+          true,
         )
       })
     })
-  
 
     return {
       start,
@@ -218,11 +143,84 @@ export default defineComponent({
       labelResetR,
       labelPauseP,
       labelStartS,
-      ...toRefs(doms)
+      ...toRefs(doms),
     }
-  }
+  },
 })
 </script>
+
+<template>
+  <div class="keyboard" :style="{ marginTop: `${fillingNum}px` }">
+    <VButton
+      ref="dom_rotate_el"
+      color="blue"
+      size="s1"
+      arrow="translate(0, 63px)"
+      :top="0"
+      :left="374"
+      :label="rotation"
+      :position="true"
+      :active="keyboard.rotate"
+    />
+    <VButton
+      ref="dom_down_el"
+      color="blue"
+      size="s1"
+      arrow="translate(0,-71px) rotate(180deg)"
+      :top="180"
+      :left="374"
+      :label="labelDown"
+      :active="keyboard.down"
+    />
+    <VButton
+      ref="dom_left_el"
+      color="blue"
+      size="s1"
+      arrow="translate(60px, -12px) rotate(270deg)"
+      :top="90"
+      :left="284"
+      :label="labelLeft"
+      :active="keyboard.left"
+    />
+    <VButton
+      ref="dom_right_el"
+      color="blue"
+      size="s1"
+      arrow="translate(-60px, -12px) rotate(90deg)"
+      :top="90"
+      :left="464"
+      :label="labelRight"
+      :active="keyboard.right"
+    />
+    <VButton
+      ref="dom_space_el"
+      color="blue"
+      size="s0"
+      :top="100"
+      :left="52"
+      :label="labelDropSpace"
+      :active="keyboard.drop"
+    />
+    <VButton
+      ref="dom_r_el"
+      color="red"
+      size="s2"
+      :top="0"
+      :left="140"
+      :label="labelResetR"
+      :active="keyboard.reset"
+    />
+    <VButton
+      ref="dom_p_el"
+      color="green"
+      size="s2"
+      :top="0"
+      :left="40"
+      :label="(start || isPause) ? labelStartS : labelPauseP"
+      :active="keyboard.pause"
+    />
+  </div>
+</template>
 
 <style lang="less" scoped>
 .keyboard {

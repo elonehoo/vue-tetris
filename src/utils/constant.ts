@@ -1,4 +1,3 @@
-
 // 每种形状的数据
 export const blockShape = {
   I: [[1, 1, 1, 1]],
@@ -7,7 +6,7 @@ export const blockShape = {
   Z: [[1, 1, 0], [0, 1, 1]],
   S: [[0, 1, 1], [1, 1, 0]],
   O: [[1, 1], [1, 1]],
-  T: [[0, 1, 0], [1, 1, 1]]
+  T: [[0, 1, 0], [1, 1, 1]],
 }
 
 export const origin = {
@@ -17,7 +16,7 @@ export const origin = {
   Z: [[0, 0]],
   S: [[0, 0]],
   O: [[0, 0]],
-  T: [[0, 0], [1, 0], [-1, 1], [0, -1]]
+  T: [[0, 0], [1, 0], [-1, 1], [0, -1]],
 }
 
 // 每个形状的名称
@@ -65,7 +64,8 @@ export const lastRecord = (() => {
     }
     data = decodeURIComponent(data)
     data = JSON.parse(data)
-  } catch (e) {
+  }
+  catch (e) {
     if (window.console || window.console.error) {
       window.console.error('读取记录错误:', e)
     }
@@ -77,22 +77,21 @@ export const lastRecord = (() => {
 // 最高分
 export const maxPoint = 999999
 
-export const transform = (function() {
+export const transform = (function () {
   const trans = [
     'transform',
     'webkitTransform',
     'msTransform',
     'mozTransform',
-    'oTransform'
+    'oTransform',
   ]
   const body = document.body
-  return trans.filter((e:any) => body.style[e] !== undefined)[0]
+  return trans.filter((e: any) => body.style[e] !== undefined)[0]
 })()
 
 // 获取浏览器 ?后面的参数 如key=value
-export const getParam = (param:any) => {
+export function getParam(param: any) {
   const r = new RegExp(`\\?(?:.+&)?${param}=(.*?)(?:&.*)?$`)
   const m = window.location.toString().match(r)
   return m ? decodeURI(m[1]) : ''
 }
-

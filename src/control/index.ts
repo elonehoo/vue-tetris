@@ -8,15 +8,15 @@ const keyboard = {
   40: 'down',
   32: 'space',
   82: 'r',
-  80: 'p'
+  80: 'p',
 }
 
 let keydownActive
 
-const boardKeys = Object.keys(keyboard).map(e => parseInt(e, 10))
+const boardKeys = Object.keys(keyboard).map(e => Number.parseInt(e, 10))
 
-const keyDown = e => {
-  if (e.metaKey === true || boardKeys.indexOf(e.keyCode) === -1) {
+function keyDown(e) {
+  if (e.metaKey === true || !boardKeys.includes(e.keyCode)) {
     return
   }
   const type = keyboard[e.keyCode]
@@ -27,8 +27,8 @@ const keyDown = e => {
   todo[type].down(store)
 }
 
-const keyUp = e => {
-  if (e.metaKey === true || boardKeys.indexOf(e.keyCode) === -1) {
+function keyUp(e) {
+  if (e.metaKey === true || !boardKeys.includes(e.keyCode)) {
     return
   }
   const type = keyboard[e.keyCode]

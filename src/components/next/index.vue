@@ -1,17 +1,7 @@
-<template>
-  <div class="next">
-    <div v-for="(item, index) in block" :key="index">
-      <b :class="e ? 'c' : ''"
-        v-for="(e, k2) in item"
-        :key="k2"
-      />
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
-import { watch, ref } from 'vue';
+import { ref, watch } from 'vue'
 import { blockShape } from '~/utils/constant'
+
 const xy = {
   // 方块在下一个中的坐标
   I: [1, 0],
@@ -20,17 +10,17 @@ const xy = {
   Z: [0, 0],
   S: [0, 0],
   O: [0, 1],
-  T: [0, 0]
+  T: [0, 0],
 }
 const empty = [[0, 0, 0, 0], [0, 0, 0, 0]]
 export default {
   props: {
     data: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
-  setup (props) {
+  setup(props) {
     const block = ref(empty)
 
     const build = (type) => {
@@ -50,15 +40,27 @@ export default {
       build(newVal.data)
     }, {
       deep: true,
-      immediate: true
+      immediate: true,
     })
 
     return {
-      block
+      block,
     }
-  }
+  },
 }
 </script>
+
+<template>
+  <div class="next">
+    <div v-for="(item, index) in block" :key="index">
+      <b
+        v-for="(e, k2) in item"
+        :key="k2"
+        :class="e ? 'c' : ''"
+      />
+    </div>
+  </div>
+</template>
 
 <style lang="less">
 .next {

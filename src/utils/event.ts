@@ -1,9 +1,9 @@
 const eventName = {}
 
-const down = o => {
+function down(o) {
   // 键盘、手指按下
   const keys = Object.keys(eventName)
-  keys.forEach(i => {
+  keys.forEach((i) => {
     clearTimeout(eventName[i])
     eventName[i] = null
   })
@@ -29,7 +29,7 @@ const down = o => {
   loop()
 }
 
-const up = o => {
+function up(o) {
   // 键盘、手指松开
   clearTimeout(eventName[o.key])
   eventName[o.key] = null
@@ -39,9 +39,9 @@ const up = o => {
   o.callback()
 }
 
-const clearAll = () => {
+function clearAll() {
   const keys = Object.keys(eventName)
-  keys.forEach(i => {
+  keys.forEach((i) => {
     clearTimeout(eventName[i])
     eventName[i] = null
   })
@@ -50,5 +50,5 @@ const clearAll = () => {
 export default {
   down,
   up,
-  clearAll
+  clearAll,
 }

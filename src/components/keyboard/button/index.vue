@@ -1,16 +1,6 @@
-<template>
-  <div class="button" :class="color+' '+size" :style="{ top: top+'px', left: left+'px' }">
-    <i :class="{'active': active}" />
-    <em :style="{transform: arrow + ' scale(1,2)'}" v-show="size === 's1'" />
-    <span :class="position ? 'position' :''">
-      {{label}}
-    </span>
-  </div>
-</template>
-
 <script lang="ts">
 export default {
-  name: 'vButton',
+  name: 'VButton',
   props: [
     'active',
     'color',
@@ -19,10 +9,20 @@ export default {
     'left',
     'label',
     'position',
-    'arrow'
-  ]
+    'arrow',
+  ],
 }
 </script>
+
+<template>
+  <div class="button" :class="`${color} ${size}`" :style="{ top: `${top}px`, left: `${left}px` }">
+    <i :class="{ active }" />
+    <em v-show="size === 's1'" :style="{ transform: `${arrow} scale(1,2)` }" />
+    <span :class="position ? 'position' : ''">
+      {{ label }}
+    </span>
+  </div>
+</template>
 
 <style lang="less" scoped>
 .button {

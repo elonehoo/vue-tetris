@@ -1,18 +1,18 @@
 import store from '~/store'
-import { want, isClear, isOver } from '~/utils'
+import { isClear, isOver, want } from '~/utils'
 import {
-  speeds,
   blankLine,
   blankMatrix,
   clearPoints,
-  eachLines
+  eachLines,
+  speeds,
 } from '~/utils/constant'
 
-const getStartMatrix = startLines => {
+function getStartMatrix(startLines) {
   // 生成startLines
   const getLine = (min, max) => {
     // 返回标亮个数在min~max之间一行方块, (包含边界)
-    const count = parseInt((max - min + 1) * Math.random() + min, 10)
+    const count = Number.parseInt((max - min + 1) * Math.random() + min, 10)
     const line = []
     for (let i = 0; i < count; i++) {
       // 插入高亮
@@ -20,22 +20,24 @@ const getStartMatrix = startLines => {
     }
     for (let i = 0, len = 10 - count; i < len; i++) {
       // 在随机位置插入灰色
-      const index = parseInt((line.length + 1) * Math.random(), 10)
+      const index = Number.parseInt((line.length + 1) * Math.random(), 10)
       line.splice(index, 0, 0)
     }
 
     return line
   }
-  let startMatrix = []
+  const startMatrix = []
 
   for (let i = 0; i < startLines; i++) {
     if (i <= 2) {
       // 0-3
       startMatrix.push(getLine(5, 8))
-    } else if (i <= 6) {
+    }
+    else if (i <= 6) {
       // 4-6
       startMatrix.push(getLine(4, 9))
-    } else {
+    }
+    else {
       // 7-9
       startMatrix.push(getLine(3, 9))
     }
@@ -65,7 +67,7 @@ const states = {
   },
 
   // 自动下落
-  auto: timeout => {
+  auto: (timeout) => {
     const out = timeout < 0 ? 0 : timeout
     let state = store.state
     let cur = state.cur
@@ -76,19 +78,20 @@ const states = {
       if (want(next, state.matrix)) {
         store.commit('moveBlock', next)
         states.fallInterval = setTimeout(fall, speeds[state.speedRun - 1])
-      } else {
-        let matrix = JSON.parse(JSON.stringify(state.matrix))
+      }
+      else {
+        const matrix = JSON.parse(JSON.stringify(state.matrix))
         const shape = cur && cur.shape
         const xy = cur && cur.xy
         shape.forEach((m, k1) =>
           m.forEach((n, k2) => {
             if (n && xy[0] + k1 >= 0) {
               // 竖坐标可以为负
-              let line = matrix[xy[0] + k1]
-              line[xy[1] + k2]=1
-              matrix[xy[0] + k1]=line
+              const line = matrix[xy[0] + k1]
+              line[xy[1] + k2] = 1
+              matrix[xy[0] + k1] = line
             }
-          })
+          }),
         )
         states.nextAround(matrix)
       }
@@ -96,7 +99,7 @@ const states = {
     clearTimeout(states.fallInterval)
     states.fallInterval = setTimeout(
       fall,
-      out === undefined ? speeds[state.speedRun - 1] : out
+      out === undefined ? speeds[state.speedRun - 1] : out,
     )
   },
 
@@ -129,7 +132,7 @@ const states = {
   },
 
   // 页面焦点变换
-  focus: isFocus => {
+  focus: (isFocus) => {
     store.commit('focus', isFocus)
     if (!isFocus) {
       clearTimeout(states.fallInterval)
@@ -142,7 +145,7 @@ const states = {
   },
 
   // 暂停
-  pause: isPause => {
+  pause: (isPause) => {
     store.commit('pause', isPause)
     if (isPause) {
       clearTimeout(states.fallInterval)
@@ -154,8 +157,8 @@ const states = {
   // 消除行
   clearLines: (matrix, lines) => {
     const state = store.state
-    let newMatrix = JSON.parse(JSON.stringify(matrix))
-    lines.forEach(n => {
+    const newMatrix = JSON.parse(JSON.stringify(matrix))
+    lines.forEach((n) => {
       newMatrix.splice(n, 1)
       newMatrix.unshift(blankLine)
     })
@@ -194,13 +197,13 @@ const states = {
   },
 
   // 写入分数
-  dispatchPoints: point => {
+  dispatchPoints: (point) => {
     // 写入分数, 同时判断是否创造最高分
     store.commit('points', point)
     if (point > 0 && point > store.state.max) {
       store.commit('max', point)
     }
-  }
+  },
 }
 
 export default states

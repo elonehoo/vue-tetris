@@ -1,80 +1,83 @@
-import { want } from "~/utils";
-import event from "~/utils/event";
-import states from "../states";
-const down = store => {
-  store.commit("key_down", true)
+import { want } from '~/utils'
+import event from '~/utils/event'
+import states from '../states'
+
+function down(store) {
+  store.commit('key_down', true)
   if (store.state.cur !== null) {
     event.down({
-      key: "down",
+      key: 'down',
       begin: 40,
       interval: 40,
-      callback: stopDownTrigger => {
-        const state = store.state;
+      callback: (stopDownTrigger) => {
+        const state = store.state
         if (state.lock) {
-          return;
+          return
         }
-        const cur = state.cur;
+        const cur = state.cur
         if (cur === null) {
-          return;
+          return
         }
         if (state.pause) {
-          states.pause(false);
-          return;
+          states.pause(false)
+          return
         }
-        const next = cur.fall();
+        const next = cur.fall()
         if (want(next, state.matrix)) {
-          store.commit("moveBlock", next);
-          states.auto();
-        } else {
-          let matrix = JSON.parse(JSON.stringify(state.matrix));
-          const shape = cur.shape;
-          const xy = cur.xy;
+          store.commit('moveBlock', next)
+          states.auto()
+        }
+        else {
+          const matrix = JSON.parse(JSON.stringify(state.matrix))
+          const shape = cur.shape
+          const xy = cur.xy
           shape.forEach((m, k1) =>
             m.forEach((n, k2) => {
               if (n && xy[0] + k1 >= 0) {
                 // 竖坐标可以为负
-                let line = matrix[xy[0] + k1];
-                line[xy[1] + k2] = 1;
+                const line = matrix[xy[0] + k1]
+                line[xy[1] + k2] = 1
 
-                matrix[xy[0] + k1] = line;
+                matrix[xy[0] + k1] = line
               }
-            })
-          );
-          states.nextAround(matrix, stopDownTrigger);
+            }),
+          )
+          states.nextAround(matrix, stopDownTrigger)
         }
-      }
-    });
-  } else {
+      },
+    })
+  }
+  else {
     event.down({
-      key: "down",
+      key: 'down',
       begin: 200,
       interval: 100,
       callback: () => {
         if (store.state.lock) {
-          return;
+          return
         }
-        const state = store.state;
-        const cur = state.cur;
+        const state = store.state
+        const cur = state.cur
         if (cur) {
-          return;
+          return
         }
-        let startLines = state.startLines;
-        startLines = startLines - 1 < 0 ? 10 : startLines - 1;
-        store.commit("startLines", startLines);
+        let startLines = state.startLines
+        startLines = startLines - 1 < 0 ? 10 : startLines - 1
+        store.commit('startLines', startLines)
         // store.dispatch(actions.startLines(startLines));
-      }
-    });
+      },
+    })
   }
-};
+}
 
-const up = store => {
-  store.commit("key_down", false);
+function up(store) {
+  store.commit('key_down', false)
   event.up({
-    key: "down"
-  });
-};
+    key: 'down',
+  })
+}
 
 export default {
   down,
-  up
-};
+  up,
+}

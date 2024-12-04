@@ -1,4 +1,5 @@
 import { blockType, StorageKey } from './constant'
+
 const hiddenProperty = (() => {
   // document[hiddenProperty] 可以判断页面是否失焦
   let names = ['hidden', 'webkitHidden', 'mozHidden', 'msHidden']
@@ -41,7 +42,7 @@ const utils = {
           return true
         }
         return true
-      })
+      }),
     )
   },
 
@@ -85,9 +86,9 @@ const utils = {
     // 判断是否为移动端
     const ua = navigator.userAgent
     const android = /Android (\d+\.\d+)/.test(ua)
-    const iphone = ua.indexOf('iPhone') > -1
-    const ipod = ua.indexOf('iPod') > -1
-    const ipad = ua.indexOf('iPad') > -1
+    const iphone = ua.includes('iPhone')
+    const ipod = ua.includes('iPod')
+    const ipad = ua.includes('iPad')
     return android || iphone || ipod || ipad
   },
 
@@ -104,7 +105,7 @@ const utils = {
       return true
     }
     return !document[hiddenProperty]
-  }
+  },
 }
 export const {
   getNextType,
@@ -114,5 +115,5 @@ export const {
   isOver,
   subscribeRecord,
   visibilityChangeEvent,
-  isFocus
+  isFocus,
 } = utils

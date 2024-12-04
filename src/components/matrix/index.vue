@@ -1,20 +1,10 @@
-<template>
-  <div class="matrix">
-    <p v-for="(p, $pIndex) in matrix" :key="$pIndex">
-      <b
-        v-for="(e, $eIndex) in p" :key="$eIndex"
-        :class="(e === 1 ? 'c' : '') + (e === 2 ? 'd' : '')" />
-    </p>
-
-  </div>
-</template>
-
 <script lang="ts">
-import { watch, ref } from 'vue';
-import { isClear } from '~/utils'
-import { fillLine, blankLine } from '~/utils/constant'
+import { ref, watch } from 'vue'
 import states from '~/control/states'
-const sleep = (delay) => {
+import { isClear } from '~/utils'
+import { blankLine, fillLine } from '~/utils/constant'
+
+function sleep(delay) {
   return new Promise((resolve) => {
     setTimeout(resolve, delay)
   })
@@ -26,19 +16,18 @@ export default {
       default: () => {
         return null
       },
-      type: Object
+      type: Object,
     },
     reset: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
     propMatrix: {
       default: () => [],
-      type: Array
-    }
+      type: Array,
+    },
   },
-  setup (props) {
-
+  setup(props) {
     const clearLines = ref([])
     const animateColor = ref(2)
     const isOver = ref(false)
@@ -55,16 +44,18 @@ export default {
 
       if (clears && !clearLines.value) {
         clearAnimate()
-      } else if (!clears && overs && !isOver.value) {
+      }
+      else if (!clears && overs && !isOver.value) {
         over(nextProps)
-      } else {
+      }
+      else {
         clearLines.value = false
         render()
       }
     }
-        
+
     const clearAnimate = async () => {
-      const anima = callback => {
+      const anima = (callback) => {
         return new Promise((resolve) => {
           sleep(100).then(() => {
             animateColor.value = 0
@@ -91,14 +82,16 @@ export default {
     }
 
     const over = async (nextProps) => {
-      let _overState = getResult(nextProps)
+      const _overState = getResult(nextProps)
       overState.value = [..._overState]
-      const exLine = index => {
+      const exLine = (index) => {
         if (index <= 19) {
-          _overState[19 - index]=fillLine
-        } else if (index >= 20 && index <= 39) {
+          _overState[19 - index] = fillLine
+        }
+        else if (index >= 20 && index <= 39) {
           _overState[index - 20] = blankLine
-        } else {
+        }
+        else {
           states.overEnd()
           return
         }
@@ -111,7 +104,6 @@ export default {
       }
     }
 
-
     const getResult = (_props) => {
       if (!_props) {
         _props = props
@@ -119,30 +111,32 @@ export default {
       const cur = _props.cur
       const shape = cur && cur.shape
       const xy = cur && cur.xy
-      let matrix = JSON.parse(JSON.stringify(_props.propMatrix))
+      const matrix = JSON.parse(JSON.stringify(_props.propMatrix))
       const _clearLines = clearLines.value
       if (_clearLines) {
         const _animateColor = animateColor.value
-        _clearLines.forEach(index => {
-          matrix[index] = new Array(10).fill(_animateColor)
+        _clearLines.forEach((index) => {
+          matrix[index] = Array.from({ length: 10 }).fill(_animateColor)
         })
-      } else if (shape) {
+      }
+      else if (shape) {
         shape.forEach((m, k1) =>
           m.forEach((n, k2) => {
             if (n && xy[0] + k1 >= 0) {
               // 竖坐标可以为负
-              let line = matrix[xy[0]+k1]
+              const line = matrix[xy[0] + k1]
               let color
               if (line[xy[1] + k2] === 1 && !_clearLines) {
                 // 矩阵与方块重合
                 color = 2
-              } else {
+              }
+              else {
                 color = 1
               }
-              line[xy[1] + k2]=color
-              matrix[xy[0] + k1]=line
+              line[xy[1] + k2] = color
+              matrix[xy[0] + k1] = line
             }
-          })
+          }),
         )
       }
       return matrix
@@ -156,15 +150,26 @@ export default {
       propsChange(newVal)
     }, {
       deep: true,
-      immediate: true
+      immediate: true,
     })
 
     return {
-      matrix
+      matrix,
     }
-  }
+  },
 }
 </script>
+
+<template>
+  <div class="matrix">
+    <p v-for="(p, $pIndex) in matrix" :key="$pIndex">
+      <b
+        v-for="(e, $eIndex) in p" :key="$eIndex"
+        :class="(e === 1 ? 'c' : '') + (e === 2 ? 'd' : '')"
+      />
+    </p>
+  </div>
+</template>
 
 <style lang="less">
 .matrix {

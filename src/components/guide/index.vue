@@ -1,3 +1,33 @@
+<script lang="ts">
+import { defineComponent, onMounted, ref } from 'vue'
+import { isMobile } from '~/utils'
+
+export default defineComponent({
+  name: 'Guide',
+  setup() {
+    const isM = ref(isMobile())
+    const linkTitle = ref('View data source')
+    const github = ref('GitHub')
+    const Space = ref('SPACE')
+
+    onMounted(() => {
+      window.addEventListener('resize', resize.bind(this), true)
+    })
+
+    const resize = () => {
+      isM.value = isMobile()
+    }
+
+    return {
+      isM,
+      linkTitle,
+      github,
+      Space,
+    }
+  },
+})
+</script>
+
 <template>
   <div v-show="!isM">
     <div class="guide right">
@@ -15,46 +45,18 @@
       </div>
     </div>
     <div class="guide left">
-      <div class="space">{{Space}}</div>
+      <div class="space">
+        {{ Space }}
+      </div>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
-import { isMobile } from '~/utils'
-export default defineComponent({
-  name: 'Guide',
-  setup () {
-    const isM = ref(isMobile())
-    const linkTitle = ref('View data source')
-    const github = ref('GitHub')
-    const Space = ref('SPACE')
-
-
-    onMounted(() => {
-      window.addEventListener('resize', resize.bind(this), true)
-    })
-
-    const resize = () => {
-      isM.value = isMobile()
-    }
-
-    return {
-      isM,
-      linkTitle,
-      github,
-      Space,
-    }
-  }
-})
-</script>
 
 <style lang="less" scoped>
 .background(@from, @to) {
   background: (@from + @to)/2;
   background: -webkit-gradient(linear, left top, left bottom, from(@from), to(@to));
-  background: -moz-linear-gradient(top, @from, @from); 
+  background: -moz-linear-gradient(top, @from, @from);
 }
 .guide {
   position: absolute;

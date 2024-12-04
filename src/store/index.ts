@@ -1,24 +1,23 @@
-import { createStore } from 'vuex';
-import mutations from './mutations'
+import { createStore } from 'vuex'
+import { getNextType, isFocus } from '~/utils'
 
-import { getNextType } from '~/utils'
-import { isFocus } from '~/utils'
-import { blankMatrix, lastRecord, maxPoint, blockType } from '~/utils/constant'
 import Block from '~/utils/block'
+import { blankMatrix, blockType, lastRecord, maxPoint } from '~/utils/constant'
+import mutations from './mutations'
 
 const _lastRecord = lastRecord
 
-const clearLinesInitState = () => {
-  const _state = (_lastRecord && !isNaN(parseInt(_lastRecord.clearLines, 10)))
-        ? parseInt(_lastRecord.clearLines, 10)
-        : 0
+function clearLinesInitState() {
+  const _state = (_lastRecord && !isNaN(Number.parseInt(_lastRecord.clearLines, 10)))
+    ? Number.parseInt(_lastRecord.clearLines, 10)
+    : 0
   if (_state < 0) {
     _state = 0
   }
-  return _state  
+  return _state
 }
 
-const curInitState = () => {
+function curInitState() {
   if (!_lastRecord || !_lastRecord.cur) {
     // 无记录 或 有记录 但方块为空, 返回 null
     return null
@@ -28,27 +27,26 @@ const curInitState = () => {
     type: cur.type,
     rotateIndex: cur.rotateIndex,
     shape: cur.shape,
-    xy: cur.xy
+    xy: cur.xy,
   }
   return new Block(option)
 }
 
-const dropInitState = () => {
+function dropInitState() {
   const _state = _lastRecord && _lastRecord.drop !== undefined
     ? !!_lastRecord.drop
     : false
   return _state
 }
 
-const lockInitState = () => {
+function lockInitState() {
   const _state = _lastRecord && _lastRecord.lock !== undefined
     ? !!_lastRecord.lock
     : false
-  return _state;
+  return _state
 }
 
-
-const matrixInitState = () => {
+function matrixInitState() {
   const _state = _lastRecord && Array.isArray(_lastRecord.matrix)
     ? _lastRecord.matrix
     : blankMatrix
@@ -56,49 +54,51 @@ const matrixInitState = () => {
   return _state
 }
 
-const maxInitState = () => {
-  const _state = _lastRecord && !isNaN(parseInt(_lastRecord.max, 10))
-    ? parseInt(_lastRecord.max, 10)
+function maxInitState() {
+  const _state = _lastRecord && !isNaN(Number.parseInt(_lastRecord.max, 10))
+    ? Number.parseInt(_lastRecord.max, 10)
     : 0
   if (_state < 0) {
     _state = 0
-  } else if (_state > maxPoint) {
+  }
+  else if (_state > maxPoint) {
     _state = maxPoint
   }
 
   return _state
 }
 
-const nextInitState = () => {
-  const _state = _lastRecord && blockType.indexOf(_lastRecord.next) !== -1
+function nextInitState() {
+  const _state = _lastRecord && blockType.includes(_lastRecord.next)
     ? _lastRecord.next
     : getNextType()
   return _state
 }
 
-const pauseInitState = () => {
+function pauseInitState() {
   const _state = _lastRecord && _lastRecord.pause !== undefined
     ? !!_lastRecord.pause
     : false
   return _state
-} 
+}
 
-const pointsInitState = () => {
-  const _state = _lastRecord && !isNaN(parseInt(_lastRecord.points, 10))
-    ? parseInt(_lastRecord.points, 10)
+function pointsInitState() {
+  const _state = _lastRecord && !isNaN(Number.parseInt(_lastRecord.points, 10))
+    ? Number.parseInt(_lastRecord.points, 10)
     : 0
   if (_state < 0) {
     _state = 0
-  } else if (_state > maxPoint) {
+  }
+  else if (_state > maxPoint) {
     _state = maxPoint
   }
 
   return _state
 }
 
-const speedRunInitState = () => {
-  const _state = _lastRecord && !isNaN(parseInt(_lastRecord.speedRun, 10))
-    ? parseInt(_lastRecord.speedRun, 10)
+function speedRunInitState() {
+  const _state = _lastRecord && !isNaN(Number.parseInt(_lastRecord.speedRun, 10))
+    ? Number.parseInt(_lastRecord.speedRun, 10)
     : 1
   if (_state < 1 || _state > 6) {
     _state = 1
@@ -106,9 +106,9 @@ const speedRunInitState = () => {
   return _state
 }
 
-const speedStartInitState = () => {
-  const _state = _lastRecord && !isNaN(parseInt(_lastRecord.speedStart, 10))
-    ? parseInt(_lastRecord.speedStart, 10)
+function speedStartInitState() {
+  const _state = _lastRecord && !isNaN(Number.parseInt(_lastRecord.speedStart, 10))
+    ? Number.parseInt(_lastRecord.speedStart, 10)
     : 1
   if (_state < 1 || _state > 6) {
     _state = 1
@@ -116,9 +116,9 @@ const speedStartInitState = () => {
   return _state
 }
 
-const startLinesInitState = () => {
-  const _state = _lastRecord && !isNaN(parseInt(_lastRecord.startLines, 10))
-    ? parseInt(_lastRecord.startLines, 10)
+function startLinesInitState() {
+  const _state = _lastRecord && !isNaN(Number.parseInt(_lastRecord.startLines, 10))
+    ? Number.parseInt(_lastRecord.startLines, 10)
     : 0
   if (_state < 0 || _state > 10) {
     _state = 0
@@ -127,7 +127,7 @@ const startLinesInitState = () => {
   return _state
 }
 
-const resetInitState = () => {
+function resetInitState() {
   const _state = _lastRecord && _lastRecord.reset
     ? !!_lastRecord.reset
     : false
@@ -157,13 +157,13 @@ const state = {
     right: false,
     rotate: false,
     reset: false,
-    pause: false
-  }
+    pause: false,
+  },
 }
 
 const store = createStore({
   state,
-  mutations
+  mutations,
 })
 
 export default store

@@ -9,5 +9,3 @@ Vue Tetris
 <div align="center">
   <a href="https://tetris.elonehoo.xyz/">Live Demo</a>
 </div>
-
-

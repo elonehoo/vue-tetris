@@ -1,6 +1,7 @@
 import event from '~/utils/event'
 import states from '../states'
-const down = store => {
+
+function down(store) {
   store.commit('key_reset', true)
   if (store.state.lock) {
     return
@@ -11,9 +12,10 @@ const down = store => {
       once: true,
       callback: () => {
         states.overStart()
-      }
+      },
     })
-  } else {
+  }
+  else {
     event.down({
       key: 'r',
       once: true,
@@ -22,19 +24,19 @@ const down = store => {
           return
         }
         states.start()
-      }
+      },
     })
   }
 }
 
-const up = store => {
+function up(store) {
   store.commit('key_reset', false)
   event.up({
-    key: 'r'
+    key: 'r',
   })
 }
 
 export default {
   down,
-  up
+  up,
 }

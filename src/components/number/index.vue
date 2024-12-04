@@ -1,44 +1,36 @@
-<template>
-  <div class="number">
-    <span v-for="(item,index) in data" :class="'bg s_'+item" :key="index" />
-  </div>
-</template>
-
 <script lang="ts">
-import { onBeforeMount, onMounted, reactive, ref, watch } from 'vue';
-
+import { onBeforeMount, onMounted, reactive, ref, watch } from 'vue'
 
 const formate = num => (num < 10 ? `0${num}`.split('') : `${num}`.split(''))
-let NumberObj = {
+const NumberObj = {
   timeInterval: null,
-  time_count: null
+  time_count: null,
 }
 export default {
   props: {
     propTime: {
       type: Boolean,
-      default: false
+      default: false,
     },
     number: {
       type: Number,
-      default: 0
+      default: 0,
     },
     length: {
       type: Number,
-      default: 6
-    }
+      default: 6,
+    },
   },
-  setup (props) {
+  setup(props) {
     const data = ref([])
     const time_count = ref('')
     const time = reactive({
-      value: new Date()
+      value: new Date(),
     })
 
     watch(props, (newVal, _) => {
       render()
     })
-
 
     const render = () => {
       if (props.propTime) {
@@ -82,11 +74,17 @@ export default {
     })
 
     return {
-      data
+      data,
     }
-  }
+  },
 }
 </script>
+
+<template>
+  <div class="number">
+    <span v-for="(item, index) in data" :key="index" :class="`bg s_${item}`" />
+  </div>
+</template>
 
 <style lang="less">
 .number {

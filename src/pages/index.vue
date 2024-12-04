@@ -1,38 +1,6 @@
-<template>
-  <div class="app" :style="size">
-    <div class="rect" :class="drop?'drop':''">
-      <Decorate/>
-      <div class="screen">
-        <div class="panel">
-          <Matrix :propMatrix="matrix" :cur="cur" :reset="reset" />
-          <Logo :cur="!!cur" :reset="reset" />
-          <div class="state">
-            <Point :cur="!!cur" :max="max" :point="points" />
-            <p>{{pContent}}</p>
-            <Number :number='cur ? clearLines : startLines' />
-            <p>{{level}}</p>
-            <Number :number='cur ? speedRun : speedStart' :length="1" />
-            <p>{{nextText}}</p>
-            <Next :data="next" />
-            <div class="bottom">
-              <Pause :data="pause" />
-              <Number :propTime="true" />
-            </div> 
-          </div>
-        </div>
-      </div>
-    </div>
-    <Keyboard :filling='filling' :cur="!!cur" />
-    <Guide/>
-  </div>
-</template>
-
 <script lang="ts">
-import { defineComponent, onMounted, ref, computed } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
-import { transform, lastRecord, speeds } from '~/utils/constant'
-import { visibilityChangeEvent, isFocus } from '~/utils'
-import states from '~/control/states'
 import Decorate from '~/components/decorate/index.vue'
 import Guide from '~/components/guide/index.vue'
 import Keyboard from '~/components/keyboard/index.vue'
@@ -42,6 +10,9 @@ import Next from '~/components/next/index.vue'
 import Number from '~/components/number/index.vue'
 import Pause from '~/components/pause/index.vue'
 import Point from '~/components/point/index.vue'
+import states from '~/control/states'
+import { isFocus, visibilityChangeEvent } from '~/utils'
+import { lastRecord, speeds, transform } from '~/utils/constant'
 
 export default defineComponent({
   components: {
@@ -53,7 +24,7 @@ export default defineComponent({
     Next,
     Number,
     Pause,
-    Point
+    Point,
   },
   setup() {
     const store = useStore()
@@ -75,7 +46,7 @@ export default defineComponent({
     const max = computed(() => store.state.max)
     const reset = computed(() => store.state.reset)
     const drop = computed(() => store.state.drop)
-    
+
     const pContent = ref(cur.value ? 'Cleans' : 'Start Line')
     const level = ref('Level')
     const nextText = ref('Next')
@@ -94,7 +65,6 @@ export default defineComponent({
     const render = () => {
       let _filling = 0
       const _size = (() => {
-        
         const _w = w.value
         const _h = h.value
         const ratio = _h / _w
@@ -102,13 +72,14 @@ export default defineComponent({
         let css = {}
         if (ratio < 1.5) {
           scale = _h / 960
-        } else {
+        }
+        else {
           scale = _w / 640
           _filling = (_h - 960 * scale) / scale / 3
           css = {
-            'padding-top': Math.floor(_filling) + 42 + 'px',
-            'padding-bottom': Math.floor(_filling) + 'px',
-            'margin-top': Math.floor(-480 - _filling * 1.5) + 'px'
+            'padding-top': `${Math.floor(_filling) + 42}px`,
+            'padding-bottom': `${Math.floor(_filling)}px`,
+            'margin-top': `${Math.floor(-480 - _filling * 1.5)}px`,
           }
         }
         css[transform] = `scale(${scale})`
@@ -127,35 +98,34 @@ export default defineComponent({
           () => {
             states.focus(isFocus())
           },
-          false
+          false,
         )
       }
 
-      console.log("lastRecord", lastRecord)
+      console.log('lastRecord', lastRecord)
       if (lastRecord) {
         // 读取记录
         if (lastRecord.cur && !lastRecord.pause) {
           // 拿到上一次游戏的状态, 如果在游戏中且没有暂停, 游戏继续
-          let timeout = speeds[speedRun - 1] / 2 // 继续时, 给予当前下落速度一半的停留时间
+          let timeout = speeds[speedRun.value - 1] / 2 // 继续时, 给予当前下落速度一半的停留时间
           // 停留时间不小于最快速的速度
-          timeout =
-            speedRun < speeds[speeds.length - 1]
+          timeout
+            = speedRun.value < speeds[speeds.length - 1]
               ? speeds[speeds.length - 1]
               : speedRun
           states.auto(timeout)
         }
 
         if (!lastRecord.cur) {
-          
           // 初始化界面
           states.overStart()
         }
-      } else {
+      }
+      else {
         // 初始化界面
         states.overStart()
       }
     }
-
 
     return {
       filling,
@@ -177,11 +147,40 @@ export default defineComponent({
       drop,
       pContent,
       level,
-      nextText
+      nextText,
     }
-  }
+  },
 })
 </script>
+
+<template>
+  <div class="app" :style="size">
+    <div class="rect" :class="drop ? 'drop' : ''">
+      <Decorate />
+      <div class="screen">
+        <div class="panel">
+          <Matrix :prop-matrix="matrix" :cur="cur" :reset="reset" />
+          <Logo :cur="!!cur" :reset="reset" />
+          <div class="state">
+            <Point :cur="!!cur" :max="max" :point="points" />
+            <p>{{ pContent }}</p>
+            <Number :number="cur ? clearLines : startLines" />
+            <p>{{ level }}</p>
+            <Number :number="cur ? speedRun : speedStart" :length="1" />
+            <p>{{ nextText }}</p>
+            <Next :data="next" />
+            <div class="bottom">
+              <Pause :data="pause" />
+              <Number :prop-time="true" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <Keyboard :filling="filling" :cur="!!cur" />
+    <Guide />
+  </div>
+</template>
 
 <style lang="less">
 body {
@@ -395,11 +394,10 @@ b {
       // -webkit-animation-delay: -0.32s;
       animation-delay: -0.32s;
     }
-    
+
     &:after {
       left: 1.5em;
     }
   }
 }
-
 </style>
