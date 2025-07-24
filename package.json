@@ -18,7 +18,7 @@
     "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.11.2",
+    "@antfu/eslint-config": "^4.19.0",
     "@iconify-json/carbon": "^1.2.4",
     "@types/node": "^22.10.1",
     "@unocss/reset": "^0.65.1",
