@@ -20,7 +20,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^3.11.2",
     "@iconify-json/carbon": "^1.2.4",
-    "@types/node": "^22.10.1",
+    "@types/node": "^24.13.3",
     "@unocss/reset": "^0.65.1",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/test-utils": "^2.4.6",
