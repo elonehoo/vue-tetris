@@ -100,7 +100,7 @@ export default {
       }
 
       for (let i = 0; i <= 40; i++) {
-        setTimeout(exLine.bind(null, i), 40 * (i + 1))
+        setTimeout(exLine, 40 * (i + 1), i)
       }
     }
 

@@ -1,5 +1,5 @@
 <div align='center'>
-<img wigth='100px' height='100px' src="./public/favicon.svg">
+<img wigth='100px' height='100px' src="./public/favicon.svg" alt="Vue Tetris">
 </div>
 
 <h1 align='center'>
