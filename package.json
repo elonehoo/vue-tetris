@@ -2,7 +2,7 @@
   "name": "vitetem-mini",
   "type": "module",
   "version": "0.0.1",
-  "packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531",
+  "packageManager": "pnpm@12.23.0+sha512.02da94ffaf133f46074322afe552f90d40b5f71ae259aefbccdacc5085b1d617e98d65e0131f5748b9b67445978ee5055d7d59a473f1eef0d504854fefcd5975",
   "scripts": {
     "build": "vite build",
     "dev": "vite --port 3333 --open",
@@ -28,7 +28,7 @@
     "eslint": "^10.13.0",
     "jsdom": "^30.1.3",
     "less": "^4.9.1",
-    "pnpm": "^9.15.9",
+    "pnpm": "^12.23.0",
     "typescript": "^5.9.3",
     "unocss": "^66.11.0",
     "unplugin-auto-import": "^21.1.0",
